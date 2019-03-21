@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="game.js"></script>    
+
+
+    </head>
+
+    <body>
+        
+        <h1>The Psychic Game</h1>
+        <h3>What letter am I thinking?</h3>
+        
+        <p id="wins"></p>
+        <p id="losses"></p>
+        <p id="guesses"></p>
+        <p id="computerLetter"></p>
+        <p id="missed"></p>
+
+        <script type="text/javascript">
+
+            // Variables: Possible letters, # of wins, # of losses, guesses remaining, random letter
+            var letter = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+            var wins = 0;
+            var losses = 0;
+            var guesses = 9;
+            var computerLetter = letter[Math.floor(Math.random() * letter.length)];
+            var miss = [];
+
+            updateScore();
+            updateGuesses();
+            updateMissed();
+
+           
+
+            function updateScore() {
+                        document.querySelector("#wins").innerHTML = "Wins: " + wins;
+                        document.querySelector("#losses").innerHTML = "Losses: " + losses;
+                        
+                        }  
+            
+            function updateGuesses() {
+                document.querySelector("#guesses").innerHTML = "Remaining guesses: " + guesses;
+            }
+
+            function updateMissed(){
+                document.querySelector("#missed").innerHTML = "Letters guessed: " + miss;
+            }
+
+            document.onkeyup = function(event){
+
+                var userGuess = event.key;
+
+                if (userGuess === computerLetter) {
+                alert("Correct!");
+                wins++;
+                updateScore();
+                guesses = 9;
+                updateGuesses();
+                computerLetter = letter[Math.floor(Math.random() * letter.length)];
+                miss = [];
+                updateMissed();
+                }
+
+                else if(guesses < 2){
+                    alert("You lose!")
+                    losses ++;
+                    updateScore();
+                    guesses = 9;
+                    updateGuesses();
+                    computerLetter = letter[Math.floor(Math.random() * letter.length)];
+                    miss = [];
+                    updateMissed();
+                }
+
+                else { 
+                    guesses --;
+                    updateGuesses();
+                    miss.push(userGuess);
+                    updateMissed();
+                }
+            }
+        </script>
+        
+
+        
+
+
+    </body>
+    
+</html>
