@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <meta charset="UTF-8">
-        <script type="text/javascript" src="game.js"></script>    
+        <meta charset="UTF-8"> 
 
 
     </head>
@@ -17,6 +16,7 @@
         <p id="guesses"></p>
         <p id="computerLetter"></p>
         <p id="missed"></p>
+        <p id="avaliableLetters"></p>
 
         <script type="text/javascript">
 
@@ -27,26 +27,35 @@
             var guesses = 9;
             var computerLetter = letter[Math.floor(Math.random() * letter.length)];
             var miss = [];
+            var all = [];
+            var avaliableLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+            
 
             updateScore();
             updateGuesses();
             updateMissed();
+            avaliableLetter();
 
            
 
             function updateScore() {
-                        document.querySelector("#wins").innerHTML = "Wins: " + wins;
-                        document.querySelector("#losses").innerHTML = "Losses: " + losses;
+                        document.getElementById("wins").innerHTML = "Wins: " + wins;
+                        document.getElementById("losses").innerHTML = "Losses: " + losses;
                         
                         }  
             
             function updateGuesses() {
-                document.querySelector("#guesses").innerHTML = "Remaining guesses: " + guesses;
+                document.getElementById("guesses").innerHTML = "Remaining guesses: " + guesses;
             }
 
             function updateMissed(){
-                document.querySelector("#missed").innerHTML = "Letters guessed: " + miss;
+                document.getElementById("missed").innerHTML = "Letters guessed: " + miss;
             }
+
+            function avaliableLetter(){
+                    document.getElementById("avaliableLetters").innerHTML = "Avaliable Letters: " + avaliableLetters;
+            }
+
 
             document.onkeyup = function(event){
 
@@ -61,9 +70,11 @@
                 computerLetter = letter[Math.floor(Math.random() * letter.length)];
                 miss = [];
                 updateMissed();
+                avaliableLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+                avaliableLetter();
                 }
 
-                else if(guesses < 2){
+                else if(guesses < 1){
                     alert("You lose!")
                     losses ++;
                     updateScore();
@@ -72,13 +83,21 @@
                     computerLetter = letter[Math.floor(Math.random() * letter.length)];
                     miss = [];
                     updateMissed();
+                    avaliableLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+                    avaliableLetter();
                 }
 
                 else { 
-                    guesses --;
-                    updateGuesses();
-                    miss.push(userGuess);
-                    updateMissed();
+                    if (miss.includes(userGuess) === false){
+                        miss.push(userGuess);
+                        updateMissed(); 
+                        avaliableLetters.splice(avaliableLetters.indexOf(userGuess),1);
+                        avaliableLetter();  
+                        guesses --;
+                        updateGuesses();
+                    }
+                    
+                    
                 }
             }
         </script>
